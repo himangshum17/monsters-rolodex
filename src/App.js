@@ -1,34 +1,28 @@
 import { useEffect, useState } from 'react';
 import CardsLists from './components/cardlists';
 import './App.css';
+import Input from './components/input';
 
 function App() {
   const [dataLists, setDataLists] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/users'
-      );
+      const response = await fetch('https://dummyjson.com/products');
       const responseData = await response.json();
-      setDataLists(responseData);
+      setDataLists(responseData.products);
     };
     fetchUsers();
   }, []);
-  const handleSearch = e => {
-    setSearchQuery(e.target.value);
-  };
+
+  const filteredArray = dataLists?.filter(data =>
+    Object.values(data).join(' ').toLowerCase().includes(searchQuery)
+  );
   return (
     <main>
       <div className='container'>
-        <div>
-          <input
-            type='search'
-            placeholder='Search...'
-            onChange={handleSearch}
-          />
-        </div>
-        <CardsLists dataLists={dataLists} />
+        <Input setSearchQuery={setSearchQuery} />
+        <CardsLists dataLists={filteredArray} />
       </div>
     </main>
   );

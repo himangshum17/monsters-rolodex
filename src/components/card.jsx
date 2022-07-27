@@ -1,8 +1,10 @@
-const Card = ({ name, email }) => {
+const Card = ({ title, description, thumbnail, price }) => {
   return (
-    <div>
-      <h3>{name}</h3>
-      <span>{email}</span>
+    <div className='card'>
+      <img src={thumbnail} alt='' />
+      <h3>{title}</h3>
+      <span>{description}</span>
+      <p>$ {price}</p>
     </div>
   );
 };
